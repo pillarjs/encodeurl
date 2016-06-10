@@ -76,8 +76,18 @@ describe('encodeUrl(url)', function () {
       assert.equal(encodeUrl('http://localhost/\uD83D\uDC7B snow.html'), 'http://localhost/%F0%9F%91%BB%20snow.html')
     })
 
-    it('should encode unpaired surrogate pairs as replacement character', function () {
-      assert.equal(encodeUrl('http://localhost/\uD83Dfoo\uDC7B <\uDC7B\uD83D>.html'), 'http://localhost/%EF%BF%BDfoo%EF%BF%BD%20%3C%EF%BF%BD%EF%BF%BD%3E.html')
+    describe('when unpaired', function () {
+      it('should encode as replacement character', function () {
+        assert.equal(encodeUrl('http://localhost/\uD83Dfoo\uDC7B <\uDC7B\uD83D>.html'), 'http://localhost/%EF%BF%BDfoo%EF%BF%BD%20%3C%EF%BF%BD%EF%BF%BD%3E.html')
+      })
+
+      it('should encode at end of string', function () {
+        assert.equal(encodeUrl('http://localhost/\uD83D'), 'http://localhost/%EF%BF%BD')
+      })
+
+      it('should encode at start of string', function () {
+        assert.equal(encodeUrl('\uDC7Bfoo'), '%EF%BF%BDfoo')
+      })
     })
   })
 })
