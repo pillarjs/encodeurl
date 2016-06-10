@@ -1,5 +1,5 @@
-unreleased
-==========
+1.0.1 / 2016-06-09
+==================
 
   * Fix encoding unpaired surrogates at start/end of string
 

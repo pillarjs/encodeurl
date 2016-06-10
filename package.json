@@ -1,7 +1,7 @@
 {
   "name": "encodeurl",
   "description": "Encode a URL to a percent-encoded form, excluding already-encoded sequences",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>"
   ],
