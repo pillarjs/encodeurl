@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix encoding `%` as last character
+
 1.0.1 / 2016-06-09
 ==================
 

@@ -67,7 +67,7 @@ describe('encodeUrl(url)', function () {
     })
 
     it('should encode the "%" if not a valid sequence', function () {
-      assert.equal(encodeUrl('http://localhost/%foo%bar%zap'), 'http://localhost/%25foo%bar%25zap')
+      assert.equal(encodeUrl('http://localhost/%foo%bar%zap%'), 'http://localhost/%25foo%bar%25zap%25')
     })
   })
 
