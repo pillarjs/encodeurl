@@ -69,6 +69,10 @@ describe('encodeUrl(url)', function () {
     it('should encode the "%" if not a valid sequence', function () {
       assert.equal(encodeUrl('http://localhost/%foo%bar%zap'), 'http://localhost/%25foo%bar%25zap')
     })
+
+    it('should encode the "%" if not a valid sequence, even at the end', function () {
+      assert.equal(encodeUrl('http://localhost/%foo%bar%zap%'), 'http://localhost/%25foo%bar%25zap%25')
+    })
   })
 
   describe('when url contains raw surrogate pairs', function () {
