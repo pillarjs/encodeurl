@@ -14,7 +14,22 @@ node_js:
   - "9.11"
   - "10.15"
   - "11.6"
+arch:
+  - amd64
+  - ppc64le
 sudo: false
+jobs: #Disabling the jobs for power support architecture
+  exclude:
+    - arch: ppc64le
+      node_js: "0.8"
+    - arch: ppc64le
+      node_js: "0.10"
+    - arch: ppc64le
+      node_js: "0.12"
+    - arch: ppc64le
+      node_js: "1.8"  
+    - arch: ppc64le
+      node_js: "2.5"
 cache:
   directories:
     - node_modules
