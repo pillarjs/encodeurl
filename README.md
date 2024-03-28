@@ -45,7 +45,7 @@ surrogate pairs with the Unicode replacement character (instead of throwing).
 
 ## Examples
 
-### Encode a URL containing user-controled data
+### Encode a URL containing user-controlled data
 
 ```js
 var encodeUrl = require('encodeurl')
