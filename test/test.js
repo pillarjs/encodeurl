@@ -11,6 +11,10 @@ describe('encodeUrl(url)', function () {
     it('should not touch IPv6 notation', function () {
       assert.strictEqual(encodeUrl('http://[::1]:8080/foo/bar'), 'http://[::1]:8080/foo/bar')
     })
+
+    it('should not touch backslashes', function () {
+      assert.strictEqual(encodeUrl('http:\\\\localhost\\foo\\bar.html'), 'http:\\\\localhost\\foo\\bar.html')
+    })
   })
 
   describe('when url contains invalid raw characters', function () {
@@ -40,9 +44,9 @@ describe('encodeUrl(url)', function () {
       assert.strictEqual(encodeUrl('/\x20\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f'), '/%20!%22#$%25&\'()*+,-./')
       assert.strictEqual(encodeUrl('/\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f'), '/0123456789:;%3C=%3E?')
       assert.strictEqual(encodeUrl('/\x40\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f'), '/@ABCDEFGHIJKLMNO')
-      assert.strictEqual(encodeUrl('/\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f'), '/PQRSTUVWXYZ[%5C]%5E_')
+      assert.strictEqual(encodeUrl('/\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f'), '/PQRSTUVWXYZ[\\]^_')
       assert.strictEqual(encodeUrl('/\x60\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6a\x6b\x6c\x6d\x6e\x6f'), '/%60abcdefghijklmno')
-      assert.strictEqual(encodeUrl('/\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x7b\x7c\x7d\x7e\x7f'), '/pqrstuvwxyz%7B%7C%7D~%7F')
+      assert.strictEqual(encodeUrl('/\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x7b\x7c\x7d\x7e\x7f'), '/pqrstuvwxyz%7B|%7D~%7F')
     })
 
     it('should encode all characters above ASCII as UTF-8 sequences', function () {
