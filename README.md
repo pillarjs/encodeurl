@@ -1,5 +1,11 @@
 # Encode URL
 
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status][ci-image]][ci-url]
+[![OpenSSF Scorecard Badge][scorecard-image]][scorecard-url]
+[![Funding][funding-image]][funding-url]
+
 Encode a URL to a percent-encoded form, excluding already-encoded sequences.
 
 ## Installation
@@ -11,7 +17,7 @@ npm install encodeurl
 ## API
 
 ```js
-var encodeUrl = require('encodeurl')
+var encodeUrl = require("encodeurl");
 ```
 
 ### encodeUrl(url)
@@ -27,63 +33,63 @@ This encode is meant to be "safe" and does not throw errors. It will try as hard
 ### Encode a URL containing user-controlled data
 
 ```js
-var encodeUrl = require('encodeurl')
-var escapeHtml = require('escape-html')
+var encodeUrl = require("encodeurl");
+var escapeHtml = require("escape-html");
 
-http.createServer(function onRequest (req, res) {
+http.createServer(function onRequest(req, res) {
   // get encoded form of inbound url
-  var url = encodeUrl(req.url)
+  var url = encodeUrl(req.url);
 
   // create html message
-  var body = '<p>Location ' + escapeHtml(url) + ' not found</p>'
+  var body = "<p>Location " + escapeHtml(url) + " not found</p>";
 
   // send a 404
-  res.statusCode = 404
-  res.setHeader('Content-Type', 'text/html; charset=UTF-8')
-  res.setHeader('Content-Length', String(Buffer.byteLength(body, 'utf-8')))
-  res.end(body, 'utf-8')
-})
+  res.statusCode = 404;
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.setHeader("Content-Length", String(Buffer.byteLength(body, "utf-8")));
+  res.end(body, "utf-8");
+});
 ```
 
 ### Encode a URL for use in a header field
 
 ```js
-var encodeUrl = require('encodeurl')
-var escapeHtml = require('escape-html')
-var url = require('url')
+var encodeUrl = require("encodeurl");
+var escapeHtml = require("escape-html");
+var url = require("url");
 
-http.createServer(function onRequest (req, res) {
+http.createServer(function onRequest(req, res) {
   // parse inbound url
-  var href = url.parse(req)
+  var href = url.parse(req);
 
   // set new host for redirect
-  href.host = 'localhost'
-  href.protocol = 'https:'
-  href.slashes = true
+  href.host = "localhost";
+  href.protocol = "https:";
+  href.slashes = true;
 
   // create location header
-  var location = encodeUrl(url.format(href))
+  var location = encodeUrl(url.format(href));
 
   // create html message
-  var body = '<p>Redirecting to new site: ' + escapeHtml(location) + '</p>'
+  var body = "<p>Redirecting to new site: " + escapeHtml(location) + "</p>";
 
   // send a 301
-  res.statusCode = 301
-  res.setHeader('Content-Type', 'text/html; charset=UTF-8')
-  res.setHeader('Content-Length', String(Buffer.byteLength(body, 'utf-8')))
-  res.setHeader('Location', location)
-  res.end(body, 'utf-8')
-})
+  res.statusCode = 301;
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.setHeader("Content-Length", String(Buffer.byteLength(body, "utf-8")));
+  res.setHeader("Location", location);
+  res.end(body, "utf-8");
+});
 ```
 
 ## Similarities
 
 This function is _similar_ to the intrinsic function `encodeURI`. However, it will not encode:
 
-* The `\`, `^`, or `|` characters
-* The `%` character when it's part of a valid sequence
-* `[` and `]` (for IPv6 hostnames)
-* Replaces raw, unpaired surrogate pairs with the Unicode replacement character
+- The `\`, `^`, or `|` characters
+- The `%` character when it's part of a valid sequence
+- `[` and `]` (for IPv6 hostnames)
+- Replaces raw, unpaired surrogate pairs with the Unicode replacement character
 
 As a result, the encoding aligns closely with the behavior in the [WHATWG URL specification][whatwg-url]. However, this package only encodes strings and does not do any URL parsing or formatting.
 
@@ -107,3 +113,14 @@ $ npm run lint
 ## License
 
 [MIT](LICENSE)
+
+[npm-image]: https://badgen.net/npm/v/encodeurl
+[npm-url]: https://npmjs.org/package/encodeurl
+[downloads-image]: https://badgen.net/npm/dm/encodeurl
+[downloads-url]: https://npmcharts.com/compare/encodeurl?minimal=true
+[ci-image]: https://badgen.net/github/checks/pillarjs/encodeurl/master?label=CI
+[ci-url]: https://github.com/pillarjs/encodeurl/actions/workflows/ci.yml
+[scorecard-image]: https://api.scorecard.dev/projects/github.com/pillarjs/encodeurl/badge
+[scorecard-url]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/pillarjs/encodeurl
+[funding-image]: https://badgen.net/badge/icon/sponsor/pink?icon=github&label=Open%20Collective
+[funding-url]: https://opencollective.com/express
