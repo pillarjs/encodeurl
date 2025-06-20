@@ -142,7 +142,7 @@ jobs:
 
           - name: Node.js 15.x
             node-version: "15"
-            npm-i: mocha@9.2.2 nyc@15.1.0         
+            npm-i: mocha@9.2.2 nyc@15.1.0
 
           - name: Node.js 16.x
             node-version: "16"
@@ -203,6 +203,18 @@ jobs:
       - name: Install npm module(s) ${{ matrix.npm-i }}
         run: npm install --save-dev ${{ matrix.npm-i }}
         if: matrix.npm-i != ''
+
+      - name: Setup Node.js version-specific dependencies
+        shell: bash
+        run: |
+          # eslint for linting
+          # - remove on Node.js < 10
+          if [[ "$(cut -d. -f1 <<< "${{ matrix.node-version }}")" -lt 10 ]]; then
+          node -pe 'Object.keys(require("./package").devDependencies).join("\n")' | \
+              grep -E '^eslint(-|$)' | \
+              sort -r | \
+              xargs -n1 npm rm --silent --save-dev
+          fi
 
       - name: Install Node.js dependencies
         run: npm install
