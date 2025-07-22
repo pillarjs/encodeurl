@@ -12,6 +12,10 @@
     "url"
   ],
   "repository": "pillarjs/encodeurl",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/express"
+  },
   "devDependencies": {
     "eslint": "5.11.1",
     "eslint-config-standard": "12.0.0",
