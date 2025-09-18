@@ -4,7 +4,6 @@
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Build Status][ci-image]][ci-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
-[![OpenSSF Scorecard Badge][scorecard-image]][scorecard-url]
 
 Encode a URL to a percent-encoded form, excluding already-encoded sequences.
 
@@ -122,5 +121,3 @@ $ npm run lint
 [ci-url]: https://github.com/pillarjs/encodeurl/actions/workflows/ci.yml
 [coveralls-image]: https://badgen.net/coveralls/c/github/pillarjs/encodeurl/master
 [coveralls-url]: https://coveralls.io/r/pillarjs/encodeurl?branch=master
-[scorecard-image]: https://api.scorecard.dev/projects/github.com/pillarjs/encodeurl/badge
-[scorecard-url]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/pillarjs/encodeurl
