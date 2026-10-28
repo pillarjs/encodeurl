@@ -26,7 +26,7 @@ var ENCODE_CHARS_REGEXP = /(?:[^\x21\x23-\x3B\x3D\x3F-\x5F\x61-\x7A\x7C\x7E]|%(?
  * @private
  */
 
-var SURROGATE_REGEXP = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDFFF]/g
+var SURROGATE_REGEXP = /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g
 
 /**
  * Encode a URL to a percent-encoded form, excluding already-encoded sequences.
@@ -48,7 +48,7 @@ var SURROGATE_REGEXP = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDFFF]/g
 
 function encodeUrl (url) {
   return String(url)
-    .replace(SURROGATE_REGEXP, function (match, pair) {
+    .replace(SURROGATE_REGEXP, function (_, pair) {
       return pair || '\uFFFD'
     })
     .replace(ENCODE_CHARS_REGEXP, encodeURI)
