@@ -1,5 +1,10 @@
 # Encode URL
 
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status][ci-image]][ci-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+
 Encode a URL to a percent-encoded form, excluding already-encoded sequences.
 
 ## Installation
@@ -107,3 +112,12 @@ $ npm run lint
 ## License
 
 [MIT](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/encodeurl
+[npm-url]: https://npmjs.org/package/encodeurl
+[downloads-image]: https://img.shields.io/npm/dm/encodeurl
+[downloads-url]: https://npmcharts.com/compare/encodeurl?minimal=true
+[ci-image]: https://img.shields.io/github/actions/workflow/status/pillarjs/encodeurl/ci.yml?branch=master
+[ci-url]: https://github.com/pillarjs/encodeurl/actions/workflows/ci.yml
+[coveralls-image]: https://img.shields.io/coverallsCoverage/github/pillarjs/encodeurl?branch=master
+[coveralls-url]: https://coveralls.io/r/pillarjs/encodeurl?branch=master
