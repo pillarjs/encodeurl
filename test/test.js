@@ -85,6 +85,18 @@ describe('encodeUrl(url)', function () {
         assert.strictEqual(encodeUrl('http://localhost/\uD83Dfoo\uDC7B <\uDC7B\uD83D>.html'), 'http://localhost/%EF%BF%BDfoo%EF%BF%BD%20%3C%EF%BF%BD%EF%BF%BD%3E.html')
       })
 
+      it('should replace consecutive unpaired high surrogates', function () {
+        assert.strictEqual(encodeUrl('\uD800\uD800\uD800'), '%EF%BF%BD%EF%BF%BD%EF%BF%BD')
+      })
+
+      it('should replace consecutive unpaired low surrogates', function () {
+        assert.strictEqual(encodeUrl('\uDC00\uDC00\uDC00'), '%EF%BF%BD%EF%BF%BD%EF%BF%BD')
+      })
+
+      it('should preserve a valid pair next to unpaired surrogates', function () {
+        assert.strictEqual(encodeUrl('\uD800\uD83D\uDC7B\uDC00'), '%EF%BF%BD%F0%9F%91%BB%EF%BF%BD')
+      })
+
       it('should encode at end of string', function () {
         assert.strictEqual(encodeUrl('http://localhost/\uD83D'), 'http://localhost/%EF%BF%BD')
       })

@@ -22,18 +22,11 @@ module.exports = encodeUrl
 var ENCODE_CHARS_REGEXP = /(?:[^\x21\x23-\x3B\x3D\x3F-\x5F\x61-\x7A\x7C\x7E]|%(?:[^0-9A-Fa-f]|[0-9A-Fa-f][^0-9A-Fa-f]|$))+/g
 
 /**
- * RegExp to match unmatched surrogate pair.
+ * RegExp to match surrogate pairs and unpaired surrogates.
  * @private
  */
 
-var UNMATCHED_SURROGATE_PAIR_REGEXP = /(^|[^\uD800-\uDBFF])[\uDC00-\uDFFF]|[\uD800-\uDBFF]([^\uDC00-\uDFFF]|$)/g
-
-/**
- * String to replace unmatched surrogate pair with.
- * @private
- */
-
-var UNMATCHED_SURROGATE_PAIR_REPLACE = '$1\uFFFD$2'
+var SURROGATE_REGEXP = /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g
 
 /**
  * Encode a URL to a percent-encoded form, excluding already-encoded sequences.
@@ -55,6 +48,8 @@ var UNMATCHED_SURROGATE_PAIR_REPLACE = '$1\uFFFD$2'
 
 function encodeUrl (url) {
   return String(url)
-    .replace(UNMATCHED_SURROGATE_PAIR_REGEXP, UNMATCHED_SURROGATE_PAIR_REPLACE)
+    .replace(SURROGATE_REGEXP, function (_, pair) {
+      return pair || '\uFFFD'
+    })
     .replace(ENCODE_CHARS_REGEXP, encodeURI)
 }
