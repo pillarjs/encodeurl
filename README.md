@@ -113,11 +113,11 @@ $ npm run lint
 
 [MIT](LICENSE)
 
-[npm-image]: https://badgen.net/npm/v/encodeurl
+[npm-image]: https://img.shields.io/npm/v/encodeurl
 [npm-url]: https://npmjs.org/package/encodeurl
-[downloads-image]: https://badgen.net/npm/dm/encodeurl
+[downloads-image]: https://img.shields.io/npm/dm/encodeurl
 [downloads-url]: https://npmcharts.com/compare/encodeurl?minimal=true
-[ci-image]: https://badgen.net/github/checks/pillarjs/encodeurl/master?label=CI
+[ci-image]: https://img.shields.io/github/actions/workflow/status/pillarjs/encodeurl/ci.yml?branch=master
 [ci-url]: https://github.com/pillarjs/encodeurl/actions/workflows/ci.yml
-[coveralls-image]: https://badgen.net/coveralls/c/github/pillarjs/encodeurl/master
+[coveralls-image]: https://img.shields.io/coverallsCoverage/github/pillarjs/encodeurl?branch=master
 [coveralls-url]: https://coveralls.io/r/pillarjs/encodeurl?branch=master
