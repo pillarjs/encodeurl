@@ -24,17 +24,21 @@
     "dist/"
   ],
   "scripts": {
+    "bench": "vitest bench",
     "build": "ts-scripts build",
     "format": "ts-scripts format",
     "lint": "ts-scripts check",
     "prepare": "ts-scripts install && npm run build",
+    "size": "size-limit",
     "specs": "ts-scripts specs",
-    "test": "ts-scripts test"
+    "test": "ts-scripts test && npm run size"
   },
   "devDependencies": {
     "@borderless/ts-scripts": "^0.15.0",
+    "@size-limit/preset-small-lib": "^14.3.0",
     "@types/node": "^26.6.5",
     "@vitest/coverage-v8": "^5.0.5",
+    "size-limit": "^14.3.0",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5"
   },
@@ -44,6 +48,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "250 B"
+    }
+  ],
   "ts-scripts": {
     "dist": [
       "dist"

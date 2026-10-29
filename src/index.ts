@@ -10,13 +10,7 @@
  * @private
  */
 const ENCODE_CHARS_REGEXP =
-  /(?:[^\x21\x23-\x3B\x3D\x3F-\x5F\x61-\x7A\x7C\x7E]|%(?:[^0-9A-Fa-f]|[0-9A-Fa-f][^0-9A-Fa-f]|$))+/g;
-
-/**
- * RegExp to match surrogate pairs and unpaired surrogates.
- * @private
- */
-const SURROGATE_REGEXP = /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g;
+  /(?:[\x00-\x20"<>`{}\x7F-\uFFFF]|%(?:[0-9A-Fa-f]?[^0-9A-Fa-f]|$))+/g;
 
 /**
  * Encode a URL to a percent-encoded form, excluding already-encoded sequences.
@@ -36,9 +30,7 @@ const SURROGATE_REGEXP = /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g;
  * @public
  */
 export function encodeUrl(url: string): string {
-  return url
-    .replace(SURROGATE_REGEXP, function (_: string, pair: string | undefined) {
-      return pair || "\uFFFD";
-    })
-    .replace(ENCODE_CHARS_REGEXP, encodeURI);
+  const index = url.search(ENCODE_CHARS_REGEXP);
+  if (index === -1) return url;
+  return url.toWellFormed().replace(ENCODE_CHARS_REGEXP, encodeURI);
 }
