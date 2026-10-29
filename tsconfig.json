@@ -2,7 +2,7 @@
   "extends": "@borderless/ts-scripts/configs/tsconfig.json",
   "compilerOptions": {
     "target": "ES2023",
-    "lib": ["ES2023"],
+    "lib": ["ES2023", "ES2024.String"],
     "rootDir": "src",
     "outDir": "dist",
     "module": "NodeNext",
