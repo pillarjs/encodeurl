@@ -4,29 +4,19 @@
  * MIT Licensed
  */
 
-'use strict'
-
-/**
- * Module exports.
- * @public
- */
-
-module.exports = encodeUrl
-
 /**
  * RegExp to match non-URL code points, *after* encoding (i.e. not including "%")
  * and including invalid escape sequences.
  * @private
  */
-
-var ENCODE_CHARS_REGEXP = /(?:[^\x21\x23-\x3B\x3D\x3F-\x5F\x61-\x7A\x7C\x7E]|%(?:[^0-9A-Fa-f]|[0-9A-Fa-f][^0-9A-Fa-f]|$))+/g
+const ENCODE_CHARS_REGEXP =
+  /(?:[^\x21\x23-\x3B\x3D\x3F-\x5F\x61-\x7A\x7C\x7E]|%(?:[^0-9A-Fa-f]|[0-9A-Fa-f][^0-9A-Fa-f]|$))+/g;
 
 /**
  * RegExp to match surrogate pairs and unpaired surrogates.
  * @private
  */
-
-var SURROGATE_REGEXP = /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g
+const SURROGATE_REGEXP = /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g;
 
 /**
  * Encode a URL to a percent-encoded form, excluding already-encoded sequences.
@@ -45,11 +35,10 @@ var SURROGATE_REGEXP = /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g
  * @return {string}
  * @public
  */
-
-function encodeUrl (url) {
+export function encodeUrl(url: string): string {
   return String(url)
-    .replace(SURROGATE_REGEXP, function (_, pair) {
-      return pair || '\uFFFD'
+    .replace(SURROGATE_REGEXP, function (_: string, pair: string | undefined) {
+      return pair || "\uFFFD";
     })
-    .replace(ENCODE_CHARS_REGEXP, encodeURI)
+    .replace(ENCODE_CHARS_REGEXP, encodeURI);
 }
