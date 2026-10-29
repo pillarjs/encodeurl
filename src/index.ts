@@ -36,7 +36,7 @@ const SURROGATE_REGEXP = /([\uD800-\uDBFF][\uDC00-\uDFFF])|[\uD800-\uDFFF]/g;
  * @public
  */
 export function encodeUrl(url: string): string {
-  return String(url)
+  return url
     .replace(SURROGATE_REGEXP, function (_: string, pair: string | undefined) {
       return pair || "\uFFFD";
     })
