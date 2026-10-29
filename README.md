@@ -16,8 +16,10 @@ npm install encodeurl
 ## API
 
 ```js
-var encodeUrl = require('encodeurl')
+import { encodeUrl } from "encodeurl";
 ```
+
+Requires Node.js 22 or later. TypeScript declarations are included.
 
 ### encodeUrl(url)
 
@@ -32,63 +34,63 @@ This encode is meant to be "safe" and does not throw errors. It will try as hard
 ### Encode a URL containing user-controlled data
 
 ```js
-var encodeUrl = require('encodeurl')
-var escapeHtml = require('escape-html')
+import { encodeUrl } from "encodeurl";
+import escapeHtml from "escape-html";
 
-http.createServer(function onRequest (req, res) {
+http.createServer(function onRequest(req, res) {
   // get encoded form of inbound url
-  var url = encodeUrl(req.url)
+  var url = encodeUrl(req.url);
 
   // create html message
-  var body = '<p>Location ' + escapeHtml(url) + ' not found</p>'
+  var body = "<p>Location " + escapeHtml(url) + " not found</p>";
 
   // send a 404
-  res.statusCode = 404
-  res.setHeader('Content-Type', 'text/html; charset=UTF-8')
-  res.setHeader('Content-Length', String(Buffer.byteLength(body, 'utf-8')))
-  res.end(body, 'utf-8')
-})
+  res.statusCode = 404;
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.setHeader("Content-Length", String(Buffer.byteLength(body, "utf-8")));
+  res.end(body, "utf-8");
+});
 ```
 
 ### Encode a URL for use in a header field
 
 ```js
-var encodeUrl = require('encodeurl')
-var escapeHtml = require('escape-html')
-var url = require('url')
+import { encodeUrl } from "encodeurl";
+import escapeHtml from "escape-html";
+import * as url from "node:url";
 
-http.createServer(function onRequest (req, res) {
+http.createServer(function onRequest(req, res) {
   // parse inbound url
-  var href = url.parse(req)
+  var href = url.parse(req);
 
   // set new host for redirect
-  href.host = 'localhost'
-  href.protocol = 'https:'
-  href.slashes = true
+  href.host = "localhost";
+  href.protocol = "https:";
+  href.slashes = true;
 
   // create location header
-  var location = encodeUrl(url.format(href))
+  var location = encodeUrl(url.format(href));
 
   // create html message
-  var body = '<p>Redirecting to new site: ' + escapeHtml(location) + '</p>'
+  var body = "<p>Redirecting to new site: " + escapeHtml(location) + "</p>";
 
   // send a 301
-  res.statusCode = 301
-  res.setHeader('Content-Type', 'text/html; charset=UTF-8')
-  res.setHeader('Content-Length', String(Buffer.byteLength(body, 'utf-8')))
-  res.setHeader('Location', location)
-  res.end(body, 'utf-8')
-})
+  res.statusCode = 301;
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+  res.setHeader("Content-Length", String(Buffer.byteLength(body, "utf-8")));
+  res.setHeader("Location", location);
+  res.end(body, "utf-8");
+});
 ```
 
 ## Similarities
 
 This function is _similar_ to the intrinsic function `encodeURI`. However, it will not encode:
 
-* The `\`, `^`, or `|` characters
-* The `%` character when it's part of a valid sequence
-* `[` and `]` (for IPv6 hostnames)
-* Replaces raw, unpaired surrogate pairs with the Unicode replacement character
+- The `\`, `^`, or `|` characters
+- The `%` character when it's part of a valid sequence
+- `[` and `]` (for IPv6 hostnames)
+- Replaces raw, unpaired surrogate pairs with the Unicode replacement character
 
 As a result, the encoding aligns closely with the behavior in the [WHATWG URL specification][whatwg-url]. However, this package only encodes strings and does not do any URL parsing or formatting.
 
@@ -97,8 +99,9 @@ It is expected that any output from `new URL(url)` will not change when used wit
 ## Testing
 
 ```sh
+$ npm install
 $ npm test
-$ npm run lint
+$ npm run build
 ```
 
 ## References
