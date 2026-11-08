@@ -10,7 +10,7 @@
  * @private
  */
 const ENCODE_CHARS_REGEXP =
-  /(?:[\x00-\x20"<>`{}\x7F-\uFFFF]|%(?:[0-9A-Fa-f]?[^0-9A-Fa-f]|$))+/g;
+  /(?:[\x00-\x20"<>`{}\x7F-\uFFFF]|%(?![0-9A-Fa-f]{2}))+/g;
 
 /**
  * Encode a URL to a percent-encoded form, excluding already-encoded sequences.

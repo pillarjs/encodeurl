@@ -174,6 +174,20 @@ describe("encodeUrl(url)", function () {
         "http://localhost/%25foo%bar%25zap%25",
       );
     });
+
+    it('should encode a "%" at the end of a truncated sequence', function () {
+      expect(encodeUrl("http://localhost/%A")).toBe("http://localhost/%25A");
+      expect(encodeUrl("http://localhost/a%2")).toBe("http://localhost/a%252");
+    });
+
+    it("should not encode a valid sequence after an invalid one", function () {
+      expect(encodeUrl("http://localhost/%%41")).toBe(
+        "http://localhost/%25%41",
+      );
+      expect(encodeUrl("http://localhost/%2%20snow.html")).toBe(
+        "http://localhost/%252%20snow.html",
+      );
+    });
   });
 
   describe("when url contains raw surrogate pairs", function () {
