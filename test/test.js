@@ -110,17 +110,17 @@ describe('encodeUrl(url)', function () {
     cases.forEach(function (entry) {
       it('should handle a long run of ' + entry[0], function () {
         var count = Math.floor(length / entry[1].length)
-        assert.strictEqual(encodeUrl(entry[1].repeat(count)), entry[2].repeat(count))
+        assert.strictEqual(encodeUrl(new Array(count + 1).join(entry[1])), new Array(count + 1).join(entry[2]))
       })
     })
 
     it('should preserve a valid escape after a long percent run', function () {
-      assert.strictEqual(encodeUrl('%'.repeat(length) + '41'), '%25'.repeat(length - 1) + '%41')
+      assert.strictEqual(encodeUrl(new Array(length + 1).join('%') + '41'), new Array(length).join('%25') + '%41')
     })
 
     it('should preserve escapes and surrogate pairs across grouped runs', function () {
-      var input = '%\uD83D\uDC7B'.repeat(1025)
-      var expected = '%25%F0%9F%91%BB'.repeat(1025)
+      var input = new Array(1026).join('%\uD83D\uDC7B')
+      var expected = new Array(1026).join('%25%F0%9F%91%BB')
       assert.strictEqual(encodeUrl(input + '%%41%2%20%A'), expected + '%25%41%252%20%25A')
     })
   })
