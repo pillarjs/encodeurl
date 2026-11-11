@@ -16,10 +16,13 @@ module.exports = encodeUrl
 /**
  * RegExp to match non-URL code points, *after* encoding (i.e. not including "%")
  * and including invalid escape sequences.
+ * Group up to 1024 character and percent runs per replacement to reduce calls
+ * to encodeURI while bounding RegExp stack use. Character runs stay intact so
+ * surrogate pairs are never split between replacements.
  * @private
  */
 
-var ENCODE_CHARS_REGEXP = /(?:[^\x21\x23-\x3B\x3D\x3F-\x5F\x61-\x7A\x7C\x7E]|%(?:[^0-9A-Fa-f]|[0-9A-Fa-f][^0-9A-Fa-f]|$))+/g
+var ENCODE_CHARS_REGEXP = /(?:[^\x21\x23-\x3B\x3D\x3F-\x5F\x61-\x7A\x7C\x7E]+|%+(?![0-9A-Fa-f]{2})){1,1024}/g
 
 /**
  * RegExp to match surrogate pairs and unpaired surrogates.

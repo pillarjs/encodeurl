@@ -75,6 +75,58 @@ describe('encodeUrl(url)', function () {
     })
   })
 
+  describe('when url contains invalid percent sequences', function () {
+    it('should encode truncated sequences', function () {
+      assert.strictEqual(encodeUrl('/%A'), '/%25A')
+      assert.strictEqual(encodeUrl('/a%2'), '/a%252')
+    })
+
+    it('should preserve a valid sequence after an invalid one', function () {
+      assert.strictEqual(encodeUrl('/%%41'), '/%25%41')
+      assert.strictEqual(encodeUrl('/%2%20snow.html'), '/%252%20snow.html')
+    })
+
+    it('should preserve allowed characters after an invalid sequence', function () {
+      assert.strictEqual(encodeUrl('/%\\'), '/%25\\')
+      assert.strictEqual(encodeUrl('/%2\\'), '/%252\\')
+      assert.strictEqual(encodeUrl('/%^%|%['), '/%25^%25|%25[')
+    })
+  })
+
+  describe('when url contains large inputs', function () {
+    this.timeout(30000)
+
+    var length = 100000
+    var cases = [
+      ['plain characters', 'a', 'a'],
+      ['spaces', ' ', '%20'],
+      ['percent signs', '%', '%25'],
+      ['Unicode', '\u65E5', '%E6%97%A5'],
+      ['surrogate pairs', '\uD83D\uDC7B', '%F0%9F%91%BB'],
+      ['unpaired surrogates', '\uD800', '%EF%BF%BD'],
+      ['valid escapes', '%20', '%20'],
+      ['mixed characters', '% \u65E5', '%25%20%E6%97%A5'],
+      ['percent signs and surrogate pairs', '%\uD83D\uDC7B', '%25%F0%9F%91%BB']
+    ]
+
+    cases.forEach(function (entry) {
+      it('should handle a long run of ' + entry[0], function () {
+        var count = Math.floor(length / entry[1].length)
+        assert.strictEqual(encodeUrl(new Array(count + 1).join(entry[1])), new Array(count + 1).join(entry[2]))
+      })
+    })
+
+    it('should preserve a valid escape after a long percent run', function () {
+      assert.strictEqual(encodeUrl(new Array(length + 1).join('%') + '41'), new Array(length).join('%25') + '%41')
+    })
+
+    it('should preserve escapes and surrogate pairs across grouped runs', function () {
+      var input = new Array(1026).join('%\uD83D\uDC7B')
+      var expected = new Array(1026).join('%25%F0%9F%91%BB')
+      assert.strictEqual(encodeUrl(input + '%%41%2%20%A'), expected + '%25%41%252%20%25A')
+    })
+  })
+
   describe('when url contains raw surrogate pairs', function () {
     it('should encode pair as UTF-8 byte sequences', function () {
       assert.strictEqual(encodeUrl('http://localhost/\uD83D\uDC7B snow.html'), 'http://localhost/%F0%9F%91%BB%20snow.html')
