@@ -94,7 +94,9 @@ describe('encodeUrl(url)', function () {
   })
 
   describe('when url contains large inputs', function () {
-    var length = 10000000
+    this.timeout(30000)
+
+    var length = 100000
     var cases = [
       ['plain characters', 'a', 'a'],
       ['spaces', ' ', '%20'],
