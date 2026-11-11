@@ -174,6 +174,53 @@ describe("encodeUrl(url)", function () {
         "http://localhost/%25foo%bar%25zap%25",
       );
     });
+
+    it('should encode a "%" at the end of a truncated sequence', function () {
+      expect(encodeUrl("http://localhost/%A")).toBe("http://localhost/%25A");
+      expect(encodeUrl("http://localhost/a%2")).toBe("http://localhost/a%252");
+    });
+
+    it("should not encode a valid sequence after an invalid one", function () {
+      expect(encodeUrl("http://localhost/%%41")).toBe(
+        "http://localhost/%25%41",
+      );
+      expect(encodeUrl("http://localhost/%2%20snow.html")).toBe(
+        "http://localhost/%252%20snow.html",
+      );
+    });
+  });
+
+  describe("when url contains large inputs", () => {
+    const length = 10_000_000;
+
+    it.each([
+      ["plain characters", "a", "a"],
+      ["spaces", " ", "%20"],
+      ["percent signs", "%", "%25"],
+      ["Unicode", "日", "%E6%97%A5"],
+      ["surrogate pairs", "👻", "%F0%9F%91%BB"],
+      ["unpaired surrogates", "\uD800", "%EF%BF%BD"],
+      ["valid escapes", "%20", "%20"],
+      ["mixed characters", "% 日", "%25%20%E6%97%A5"],
+      ["percent signs and surrogate pairs", "%👻", "%25%F0%9F%91%BB"],
+    ])("should handle a long run of %s", (_name, input, expected) => {
+      const count = Math.floor(length / input.length);
+      expect(encodeUrl(input.repeat(count))).toBe(expected.repeat(count));
+    });
+
+    it("should preserve a valid escape after a long percent run", () => {
+      expect(encodeUrl(`${"%".repeat(length)}41`)).toBe(
+        `${"%25".repeat(length - 1)}%41`,
+      );
+    });
+
+    it("should preserve escapes and surrogate pairs across grouped runs", () => {
+      const input = "%👻".repeat(1025);
+      const expected = "%25%F0%9F%91%BB".repeat(1025);
+      expect(encodeUrl(`${input}%%41%2%20%A`)).toBe(
+        `${expected}%25%41%252%20%25A`,
+      );
+    });
   });
 
   describe("when url contains raw surrogate pairs", function () {
