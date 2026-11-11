@@ -7,10 +7,13 @@
 /**
  * RegExp to match non-URL code points, *after* encoding (i.e. not including "%")
  * and including invalid escape sequences.
+ * Group up to 1024 character and percent runs per replacement to reduce calls
+ * to encodeURI while bounding RegExp stack use. Character runs stay intact so
+ * surrogate pairs are never split between replacements.
  * @private
  */
 const ENCODE_CHARS_REGEXP =
-  /(?:[\x00-\x20"<>`{}\x7F-\uFFFF]|%(?![0-9A-Fa-f]{2}))+/g;
+  /(?:[\x00-\x20"<>`{}\x7F-\uFFFF]+|%+(?![0-9A-Fa-f]{2})){1,1024}/g;
 
 /**
  * Encode a URL to a percent-encoded form, excluding already-encoded sequences.

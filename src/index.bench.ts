@@ -13,6 +13,8 @@ describe("encodeUrl", () => {
     "unpaired surrogates": "https://example.com/\uD800foo\uDC00",
     "invalid escapes": "https://example.com/%foo%bar%zap%",
     "long plain URL": `https://example.com/${"foo/bar/".repeat(500)}`,
+    "long percent run": "%".repeat(1_000_000),
+    "long mixed run": "% 日".repeat(333_333),
   };
 
   for (const [name, url] of Object.entries(cases)) {
