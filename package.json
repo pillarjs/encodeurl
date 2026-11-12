@@ -12,6 +12,9 @@
     "url"
   ],
   "repository": "pillarjs/encodeurl",
+  "publishConfig": {
+    "tag": "latest-2.x"
+  },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/express"
