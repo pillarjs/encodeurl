@@ -1,6 +1,6 @@
 {
   "name": "encodeurl",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Encode a URL to a percent-encoded form, excluding already-encoded sequences",
   "keywords": [
     "encode",
